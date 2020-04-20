@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Recycling</string>
+
+    <string-array name="residues">
+        <item>Select a residue</item>
+        <item>Bottles</item>
+        <item>Tetrabriks</item>
+        <item>Glass</item>
+        <item>Paperboard</item>
+        <item>Cans</item>
+    </string-array>
+</resources>
