@@ -48,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         bRegister = (Button) findViewById(R.id.bRegister);
         ReqQueue = Volley.newRequestQueue(RegisterActivity.this);
 
+
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,8 +98,8 @@ public class RegisterActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url="http://127.0.0.1:8080/api/personas";
         // CREO LA PETICION PARA ENVIAR AL SERVIDOR
+        String url = getResources().getString(R.string.path_service) +"personas";
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, j,
                 new Response.Listener<JSONObject>() {
 
@@ -112,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        String ToastText = "El usuario"+username+" fue creado exitosamente";
+                        String ToastText = "El usuario "+username+" fue creado exitosamente";
                         Toast.makeText(RegisterActivity.this,ToastText,Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(RegisterActivity.this,MainActivity.class);
                         startActivity(i);
