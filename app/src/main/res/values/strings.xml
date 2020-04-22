@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">Recycling</string>
+    <string name="path_service">127.0.0.1:8080/api/</string>
+    <!-- Register Hidden-->
+    <string name="reg_FN">Nombre</string>
+    <string name="reg_LN">Apellido</string>
+    <string name="reg_UN">Usuario</string>
+    <string name="reg_A">Dirección</string>
+    <string name="reg_E">Email</string>
+    <!-- Register Error Messages  -->
+    <string name="err_FN">"Es necesario ingresar un Nombre"</string>
+    <string name="err_LN">"Es necesario ingresar un Apellido"</string>
+    <string name="err_UN">"Es necesario ingresar un Usuario"</string>
+    <string name="err_A">"Es necesario ingresar una Dirección"</string>
+    <string name="err_E">"Es necesario ingresar un E-Mail"</string>
 
+    <!-- Residuos -->
     <string-array name="residues">
         <item>Select a residue</item>
         <item>Bottles</item>

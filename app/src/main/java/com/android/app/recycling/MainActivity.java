@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     Button bLogin;
-    EditText etUsername, etPassword;
+    EditText etUsername;
     TextView tvRegisterLink;
 
     @Override
@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         etUsername = (EditText) findViewById(R.id.etUsername);
-        etPassword = (EditText) findViewById(R.id.etPassword);
 
         tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
         tvRegisterLink.setOnClickListener(new View.OnClickListener() {
