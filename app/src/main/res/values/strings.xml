@@ -7,6 +7,7 @@
     <string name="reg_UN">Usuario</string>
     <string name="reg_A">Dirección</string>
     <string name="reg_E">Email</string>
+
     <!-- Register Error Messages  -->
     <string name="err_FN">"Es necesario ingresar un Nombre"</string>
     <string name="err_LN">"Es necesario ingresar un Apellido"</string>

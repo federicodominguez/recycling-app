@@ -2,6 +2,8 @@ package com.android.app.recycling;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,6 +29,14 @@ public class RecyclingComponentsActivity extends AppCompatActivity implements Ad
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerComponents.setAdapter(adapter);
         spinnerComponents.setOnItemSelectedListener(this);
+        SharedPreferences preferencias = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+
+        Boolean openSession = true;
+
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.putBoolean("UserInSession",openSession);
+        editor.commit();
+
     }
 
     @Override
