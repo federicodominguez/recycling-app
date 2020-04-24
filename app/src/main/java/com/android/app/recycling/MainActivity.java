@@ -99,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             String ToastText =username+" ha iniciado sesion";
                             Toast.makeText(MainActivity.this,ToastText,Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this, RecyclingComponentsActivity.class));
+                            Intent i = new Intent(MainActivity.this, RecyclingComponentsActivity.class);
+                            i.putExtra("userName",username);
+                            startActivity(i);
                             finish();
                             }
                     }

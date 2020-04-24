@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-tools:context=".RecyclingComponentsActivity">
+    tools:context=".RecyclingComponentsActivity">
 
     <Spinner
         android:id="@+id/spinnerComponents"
@@ -44,6 +44,7 @@ tools:context=".RecyclingComponentsActivity">
                 android:layout_gravity="left"
                 android:layout_weight="3"
                 android:maxLines="2"
+                android:inputType="number"
                 android:hint="Quantity"/>
 
             <Button
@@ -53,8 +54,9 @@ tools:context=".RecyclingComponentsActivity">
                 android:layout_gravity="right"
                 android:layout_weight="1"
                 android:text="ADD"
+                android:textColor="?attr/colorControlNormal"
                 android:maxLines="2"
-                android:filterTouchesWhenObscured="true" />
+                style="?attr/materialButtonOutlinedStyle"/>
 
             <LinearLayout
                 android:id="@+id/rightSpacer2"
@@ -67,29 +69,27 @@ tools:context=".RecyclingComponentsActivity">
         </LinearLayout>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/bSend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SEND"
+        android:textColor="?attr/colorControlNormal"
+        style="?attr/materialButtonOutlinedStyle"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:divider="?android:attr/dividerHorizontal"
         android:showDividers="beginning"
-        android:paddingTop="16dip">
+        android:paddingTop="5dip">
 
-        <LinearLayout
-            style="?android:attr/buttonBarStyle"
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:measureWithLargestChild="true">
-
-            <LinearLayout
-                android:id="@+id/leftSpacer"
-                android:layout_weight="0.25"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone" />
-
+            android:layout_height="wrap_content">
             <Button
                 android:id="@+id/bActual"
                 android:layout_width="0dip"
@@ -97,8 +97,8 @@ tools:context=".RecyclingComponentsActivity">
                 android:layout_gravity="left"
                 android:layout_weight="1"
                 android:text="Actual"
-                android:maxLines="2" />
-
+                style="?attr/materialButtonOutlinedStyle"
+                />
             <Button
                 android:id="@+id/bHistorical"
                 android:layout_width="0dip"
@@ -107,17 +107,27 @@ tools:context=".RecyclingComponentsActivity">
                 android:layout_weight="1"
                 android:text="Historical"
                 android:maxLines="2"
-                android:filterTouchesWhenObscured="true"/>
+                style="?attr/materialButtonOutlinedStyle"
+                />
 
-            <LinearLayout
-                android:id="@+id/rightSpacer"
-                android:layout_width="0dip"
-                android:layout_weight="0.25"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
-        </LinearLayout>
     </LinearLayout>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"/>
+
+    <Button
+        android:id="@+id/bLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOGOUT"
+        android:textColor="?attr/colorControlNormal"
+        style="?attr/materialButtonOutlinedStyle"
+        />
 
 </LinearLayout>
