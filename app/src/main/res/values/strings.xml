@@ -30,7 +30,9 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="nav_actual">Actual</string>
+    <string name="nav_historical">Historial</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_recycling">Recycling</string>
