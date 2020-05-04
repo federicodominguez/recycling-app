@@ -31,22 +31,19 @@ public class MainActivity extends AppCompatActivity {
     EditText etUsername;
     TextView tvRegisterLink;
     TextInputLayout tilUsername;
+    SharedPreferences pref_session;
 
-    public static final String USER_PREF = "UserPreferences" ;
-    SharedPreferences sharedpreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedpreferences = getSharedPreferences(USER_PREF, Context.MODE_PRIVATE);
         etUsername = (EditText) findViewById(R.id.etUsername);
         tilUsername = (TextInputLayout) findViewById(R.id.tilUsername);
         tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
-        SharedPreferences pref_session = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
-
+        pref_session = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
         //Comprobando si ya hay una sesion abierta por un usuario
         if (pref_session.getBoolean("UserInSession",false)) {
-            startActivity(new Intent(MainActivity.this,RecyclingComponentsActivity.class));
+            startActivity(new Intent(MainActivity.this,NavDrawerActivity.class));
             finish();
         } else {
             tvRegisterLink.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
             });
-
 
             bLogin = (Button) findViewById(R.id.bLogin);
             bLogin.setOnClickListener(new View.OnClickListener() {
@@ -99,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             String ToastText =username+" ha iniciado sesion";
                             Toast.makeText(MainActivity.this,ToastText,Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = pref_session.edit();
+                            editor.putBoolean("UserInSession",true);
+                            editor.commit();
                             Intent i = new Intent(MainActivity.this, NavDrawerActivity.class);
-                            i.putExtra("userName",username);
                             startActivity(i);
                             finish();
                             }
@@ -122,14 +120,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause()
     {
         super.onPause();
-        SharedPreferences preferencias = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
-
         String user = etUsername.getText().toString();
-
-        SharedPreferences.Editor editor = preferencias.edit();
-
+        SharedPreferences.Editor editor = pref_session.edit();
         editor.putString("user",user);
-
+        //editor.putBoolean("UserInSession",true);
         editor.commit();
 
     }
