@@ -66,6 +66,8 @@ public class HomeFragment extends Fragment {
         pieData = new PieData(dataSet);
         pieChart = root.findViewById(R.id.pieChart);
 
+        pieChart.setVisibility(View.INVISIBLE);
+
         bottomNavigationView = root.findViewById(R.id.bottom_navigation);
 
         ReqQueue = Volley.newRequestQueue(this.getActivity());
@@ -73,8 +75,6 @@ public class HomeFragment extends Fragment {
         sharedViewModel.getResidues().observe(getViewLifecycleOwner(), new Observer<HashMap<String, Integer>>() {
             @Override
             public void onChanged(@Nullable HashMap<String, Integer> stringIntegerHashMap) {
-
-                Log.d("ONCHANGED","====== ENTRO =====");
 
                 Boolean set =  false;
                 pieChart.setVisibility(View.VISIBLE);
@@ -107,6 +107,9 @@ public class HomeFragment extends Fragment {
                 pieData.notifyDataChanged();
                 pieChart.notifyDataSetChanged();
                 pieChart.invalidate();
+
+                pieChart.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -135,7 +138,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Log.d("On_View_Created_1","==============");
 
-        if(residues.isEmpty()){
+
+        /*if(residues.isEmpty()){
             pieChart.setVisibility(View.INVISIBLE);
             Toast.makeText(requireContext(),R.string.empty_recycled,Toast.LENGTH_SHORT).show();
         } else {
@@ -154,8 +158,9 @@ public class HomeFragment extends Fragment {
 
             pieData.setDataSet(dataSet);
             //pieData = new PieData(dataSet);
-            pieChart.setData(pieData);
-        }
+            pieChart.setData(pieData);*/
+
+        pieChartActual();
 
         bSend = view.findViewById(R.id.bSend);
 
@@ -204,10 +209,10 @@ public class HomeFragment extends Fragment {
     }
     private void pieChartActual() {
 
-        if(residues.isEmpty()) {
+       /* if(residues.isEmpty()) {
             pieChart.setVisibility(View.INVISIBLE);
             Toast.makeText(requireContext(), R.string.empty_recycled, Toast.LENGTH_SHORT).show();
-        } else {
+        } else {*/
             //dataSet =  new PieDataSet(residues,"residues");
             dataSet.setLabel("residues");
             dataSet.setValues(residues);
@@ -220,7 +225,7 @@ public class HomeFragment extends Fragment {
             pieData.notifyDataChanged();
             pieChart.notifyDataSetChanged();
             pieChart.invalidate();
-        }
+
     }
 
     private void getTotalAndDraw(){
@@ -285,6 +290,7 @@ public class HomeFragment extends Fragment {
                     {
                         String ToastText = "El reciclado fue almacenado exitosamente";
                         Toast.makeText(requireContext(),ToastText,Toast.LENGTH_SHORT).show();
+                        residues.clear();
                     }
                 }, new Response.ErrorListener() {
             @Override
