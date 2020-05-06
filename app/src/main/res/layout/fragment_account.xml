@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".RegisterActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<LinearLayout
     android:orientation="vertical"
     android:padding="10dp"
     android:layout_width="match_parent"
@@ -14,7 +22,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="22sp" />
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/tilAccFN"
+        app:layout_constraintStart_toStartOf="@+id/tilAccFN"
+        app:layout_constraintTop_toTopOf="parent"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -64,6 +76,9 @@
             android:id="@+id/tilAccFN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/tilAccLN"
+            app:layout_constraintStart_toStartOf="@+id/tilAccLN"
+            app:layout_constraintTop_toBottomOf="@+id/tilAccUN"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -76,6 +91,9 @@
             android:id="@+id/tilAccLN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/tilAccEm"
+            app:layout_constraintStart_toStartOf="@+id/tilAccEm"
+            app:layout_constraintTop_toBottomOf="@+id/tilAccFN"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -88,6 +106,9 @@
             android:id="@+id/tilAccEm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/tilAccAd"
+            app:layout_constraintStart_toStartOf="@+id/tilAccAd"
+            app:layout_constraintTop_toBottomOf="@+id/tilAccLN"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -100,6 +121,9 @@
             android:id="@+id/tilAccAd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/btnLogout"
+            app:layout_constraintStart_toStartOf="@+id/btnLogout"
+            app:layout_constraintTop_toBottomOf="@+id/tilAccEm"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -116,9 +140,13 @@
         android:id="@+id/btnLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cerrar Sesión">
+        android:text="Cerrar Sesión"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tilAccAd">
 
     </Button>
 
 
 </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

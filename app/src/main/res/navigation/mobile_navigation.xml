@@ -21,10 +21,22 @@
         android:id="@+id/nav_account"
         android:name="com.android.app.recycling.ui.account.Account"
         android:label="@string/menu_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_nav_account_to_nav_home"
+            app:destination="@id/nav_home"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
+    </fragment>
     <fragment
         android:id="@+id/nav_listRecycling"
         android:name="com.android.app.recycling.ui.listRecycler.listRecycling"
         android:label="Mis Reciclados"
-        tools:layout="@layout/fragment_list_recycling" />
+        tools:layout="@layout/fragment_list_recycling" >
+        <action
+            android:id="@+id/action_nav_listRecycling_to_nav_home"
+            app:destination="@id/nav_home"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
+    </fragment>
 </navigation>

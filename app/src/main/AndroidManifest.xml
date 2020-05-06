@@ -17,11 +17,12 @@
         <activity
             android:name=".NavDrawerActivity"
             android:label="@string/title_activity_nav_drawer"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:theme="@style/NoActionBar"></activity>
         <activity android:name=".RecyclingComponentsActivity"
             android:label="@string/title_activity_nav_drawer"/>
         <activity android:name=".RegisterActivity" android:label="Registro de Usuario"/>
-        <activity android:name=".MainActivity" android:label="Login">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
