@@ -14,6 +14,7 @@ public class SharedViewModel extends ViewModel {
     private MutableLiveData<HashMap<String,Integer>> residues;
 
     public SharedViewModel() {
+
         residues = new MutableLiveData<HashMap<String, Integer>>();
     }
 

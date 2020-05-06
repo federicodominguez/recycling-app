@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="Cans"
+        android:hint="Latas"
         app:startIconDrawable="@drawable/ic_delete_24px"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -29,7 +29,7 @@
         android:id="@+id/tilBottles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Bottles"
+        android:hint="Botellas"
         app:startIconDrawable="@drawable/ic_delete_24px"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -63,7 +63,7 @@
         android:id="@+id/tilGlass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Glass"
+        android:hint="Vidrio"
         app:startIconDrawable="@drawable/ic_delete_24px"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -80,7 +80,7 @@
         android:id="@+id/tilPaperboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Paperboard"
+        android:hint="Carton"
         app:startIconDrawable="@drawable/ic_delete_24px"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -99,6 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="25dp">
+
         <Button
             android:id="@+id/bAdd"
             android:layout_width="match_parent"
@@ -108,18 +109,7 @@
             app:iconTint="?attr/colorButtonNormal"
             style="?attr/materialButtonOutlinedStyle"
             />
-        <Button
-            android:id="@+id/bSend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enviar"
-            app:icon="@drawable/ic_send_24px"
-            app:iconTint="?attr/colorButtonNormal"
-            app:iconPadding="12dp"
-            style="?attr/materialButtonOutlinedStyle"
-            />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
-
 
 </LinearLayout>
