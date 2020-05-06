@@ -14,10 +14,5 @@
             android:icon="@drawable/ic_icons8_recycle"
             android:title="@string/menu_recycling"
             />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:title="@string/menu_account"
-            android:icon="@drawable/ic_account_circle_24px___copy"
-            />
     </group>
 </menu>

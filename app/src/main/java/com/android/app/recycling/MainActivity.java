@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Comprobando si ya hay una sesion abierta por un usuario
         if (pref_session.getBoolean("UserInSession",false)) {
-            startActivity(new Intent(MainActivity.this,RecyclingComponentsActivity.class));
+            startActivity(new Intent(MainActivity.this,NavDrawerActivity.class));
             finish();
         } else {
             tvRegisterLink.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferencias.edit();
 
         editor.putString("user",user);
+        editor.putBoolean("UserInSession",true);
 
         editor.commit();
 

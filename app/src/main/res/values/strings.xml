@@ -17,23 +17,26 @@
 
     <!-- Residuos -->
     <string-array name="residues">
-        <item>Select a residue</item>
-        <item>Bottles</item>
-        <item>Tetrabriks</item>
-        <item>Glass</item>
-        <item>Paperboard</item>
-        <item>Cans</item>
+        <item>bottles</item>
+        <item>tetrabriks</item>
+        <item>glass</item>
+        <item>paperboard</item>
+        <item>cans</item>
     </string-array>
+
     <string name="title_activity_nav_drawer">NavDrawerActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="nav_actual">Actual</string>
+    <string name="nav_historical">Historial</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_recycling">Recycling</string>
-    <string name="menu_account">Account</string>
+
+    <string name="empty_recycled">No existen reciclados</string>
 
 </resources>
