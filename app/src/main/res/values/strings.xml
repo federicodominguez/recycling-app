@@ -36,6 +36,8 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_recycling">Recycling</string>
+    <string name="menu_account">Mi Cuenta</string>
+    <string name="menu_listRecycling">Mis Reciclados</string>
 
     <string name="empty_recycled">No existen reciclados</string>
 

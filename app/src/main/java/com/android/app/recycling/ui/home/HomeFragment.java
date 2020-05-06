@@ -276,7 +276,6 @@ public class HomeFragment extends Fragment {
             j.put("tetrabriks", sharedViewModel.getResidues().getValue().get("tetrabriks").toString());
             j.put("glass",sharedViewModel.getResidues().getValue().get("glass").toString());
             j.put("paperboard", sharedViewModel.getResidues().getValue().get("paperboard").toString());
-            j.put("date",null);
 
         } catch (JSONException e) {
             e.printStackTrace();

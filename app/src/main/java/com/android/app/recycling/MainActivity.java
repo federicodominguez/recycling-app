@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,13 +16,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,19 +26,16 @@ public class MainActivity extends AppCompatActivity {
     EditText etUsername;
     TextView tvRegisterLink;
     TextInputLayout tilUsername;
+    SharedPreferences pref_session;
 
-    public static final String USER_PREF = "UserPreferences" ;
-    SharedPreferences sharedpreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedpreferences = getSharedPreferences(USER_PREF, Context.MODE_PRIVATE);
         etUsername = (EditText) findViewById(R.id.etUsername);
         tilUsername = (TextInputLayout) findViewById(R.id.tilUsername);
         tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
-        SharedPreferences pref_session = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
-
+        pref_session = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
         //Comprobando si ya hay una sesion abierta por un usuario
         if (pref_session.getBoolean("UserInSession",false)) {
             startActivity(new Intent(MainActivity.this,NavDrawerActivity.class));
@@ -99,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             String ToastText =username+" ha iniciado sesion";
                             Toast.makeText(MainActivity.this,ToastText,Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = pref_session.edit();
+                            editor.putBoolean("UserInSession",true);
+                            editor.commit();
                             Intent i = new Intent(MainActivity.this, NavDrawerActivity.class);
                             i.putExtra("userName",username);
                             startActivity(i);
@@ -122,15 +117,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause()
     {
         super.onPause();
-        SharedPreferences preferencias = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
-
         String user = etUsername.getText().toString();
-
-        SharedPreferences.Editor editor = preferencias.edit();
-
+        SharedPreferences.Editor editor = pref_session.edit();
         editor.putString("user",user);
-        editor.putBoolean("UserInSession",true);
-
         editor.commit();
 
     }

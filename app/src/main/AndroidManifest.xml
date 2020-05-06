@@ -16,8 +16,8 @@
         tools:targetApi="n">
         <activity
             android:name=".NavDrawerActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:label="@string/title_activity_nav_drawer"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:theme="@style/NoActionBar"></activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity">

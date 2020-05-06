@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".RegisterActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.account.Account">
+
+    <TextView
+        android:id="@+id/tVUN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/tilAccFN"
+        app:layout_constraintStart_toStartOf="@+id/tilAccFN"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tVFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:gravity="center"
+            android:text="Nombre"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tVLastName"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:gravity="center"
+            android:text="Apellido" />
+
+        <TextView
+            android:id="@+id/tVEmail"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:gravity="center"
+            android:text="Email" />
+
+        <TextView
+            android:id="@+id/tVAddress"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:gravity="center"
+            android:text="Direccion" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAccFN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/tilAccLN"
+            app:layout_constraintStart_toStartOf="@+id/tilAccLN"
+            app:layout_constraintTop_toBottomOf="@+id/tilAccUN"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAccFN"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAccLN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/tilAccEm"
+            app:layout_constraintStart_toStartOf="@+id/tilAccEm"
+            app:layout_constraintTop_toBottomOf="@+id/tilAccFN"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAccLN"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAccEm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/tilAccAd"
+            app:layout_constraintStart_toStartOf="@+id/tilAccAd"
+            app:layout_constraintTop_toBottomOf="@+id/tilAccLN"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAccEm"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAccAd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/btnLogout"
+            app:layout_constraintStart_toStartOf="@+id/btnLogout"
+            app:layout_constraintTop_toBottomOf="@+id/tilAccEm"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAccAd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cerrar Sesión"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tilAccAd">
+
+    </Button>
+
+
+</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
