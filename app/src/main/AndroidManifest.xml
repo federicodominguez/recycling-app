@@ -18,12 +18,12 @@
             android:name=".NavDrawerActivity"
             android:label="@string/title_activity_nav_drawer"
             android:theme="@style/NoActionBar"></activity>
-        <activity android:name=".RecyclingComponentsActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".RecyclingComponentsActivity"
+            android:label="@string/title_activity_nav_drawer"/>
+        <activity android:name=".RegisterActivity" android:label="Registro de Usuario"/>
+        <activity android:name=".MainActivity" android:label="Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

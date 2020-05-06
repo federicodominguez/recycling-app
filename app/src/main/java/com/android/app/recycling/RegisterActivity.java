@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -17,14 +18,18 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 public class RegisterActivity extends AppCompatActivity {
 
     Button bRegister;
     EditText etFirstName, etLastName, etEmail, etUsername, etAddress;
     TextInputLayout tilFirstName, tilLastName, tilEmail, tilUsername, tilAddress;
+    TextView tvRegisterReturn;
     private RequestQueue ReqQueue;
 
     @Override
@@ -46,9 +51,16 @@ public class RegisterActivity extends AppCompatActivity {
         tilAddress = (TextInputLayout) findViewById(R.id.tilAddress);
 
         bRegister = (Button) findViewById(R.id.bRegister);
+        tvRegisterReturn =(TextView) findViewById(R.id.tvRegisterReturn);
         ReqQueue = Volley.newRequestQueue(RegisterActivity.this);
 
-
+        tvRegisterReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                finish();
+            }
+        });
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,10 +135,25 @@ public class RegisterActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RegisterActivity.this,error.toString(), Toast.LENGTH_SHORT).show();
+                parseVolleyError(error);
                 bRegister.setEnabled(true);
+                tilFirstName.setEnabled(true);
+                tilLastName.setEnabled(true);
+                tilEmail.setEnabled(true);
+                tilUsername.setEnabled(true);
+                tilAddress.setEnabled(true);
             }
         });
         ReqQueue.add(req);
+    }
+    private void parseVolleyError(VolleyError error) {
+        try {
+            String responseBody = new String(error.networkResponse.data, "utf-8");
+            JSONObject data = new JSONObject(responseBody);
+            String message = data.optString("message");
+            Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
+        } catch (JSONException e) {
+        } catch (UnsupportedEncodingException e) {
+        }
     }
 }
