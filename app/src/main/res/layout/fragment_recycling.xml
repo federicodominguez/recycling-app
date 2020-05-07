@@ -1,10 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.recycling.RecyclingFragment">
+    tools:context=".ui.recycling.RecyclingFragment"
+    android:orientation="vertical">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilCans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Latas"
+        app:startIconDrawable="@drawable/ic_delete_24px"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCans"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilBottles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Botellas"
+        app:startIconDrawable="@drawable/ic_delete_24px"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etBottles"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilTetrabriks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tetrabriks"
+        app:startIconDrawable="@drawable/ic_delete_24px"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTetrabriks"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilGlass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Vidrio"
+        app:startIconDrawable="@drawable/ic_delete_24px"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etGlass"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPaperboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Carton"
+        app:startIconDrawable="@drawable/ic_delete_24px"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPaperboard"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp">
+
+        <Button
+            android:id="@+id/bAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Agregar"
+            app:icon="@drawable/ic_add_24px"
+            app:iconTint="?attr/colorButtonNormal"
+            style="?attr/materialButtonOutlinedStyle"
+            />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+</LinearLayout>

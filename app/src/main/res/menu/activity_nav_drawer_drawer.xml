@@ -15,9 +15,15 @@
             android:title="@string/menu_recycling"
             />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_listRecycling"
+            android:title="@string/menu_listRecycling"
+            android:icon="@drawable/ic_account_circle_24px___copy"
+            />
+        <item
+            android:id="@+id/nav_account"
             android:title="@string/menu_account"
             android:icon="@drawable/ic_account_circle_24px___copy"
             />
+
     </group>
 </menu>

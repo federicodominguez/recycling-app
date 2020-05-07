@@ -1,85 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context=".RegisterActivity">
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilFirstName"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/bRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/reg_FN"
-        app:endIconMode="clear_text">
+        android:layout_marginTop="92dp"
+        android:text="Register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tilAddress" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etFirstName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-        />
-    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/tvRegisterReturn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:text="Volver"
+        android:textStyle="bold"
+        android:layout_marginTop="92dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bRegister"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/reg_LN"
-        app:endIconMode="clear_text">
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="@+id/tilUsername"
+        app:layout_constraintStart_toStartOf="@+id/tilUsername"
+        app:layout_constraintTop_toBottomOf="@+id/tilFirstName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etLastName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="61dp"
         android:hint="@string/reg_UN"
-        app:endIconMode="clear_text">
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="@+id/tilEmail"
+        app:layout_constraintStart_toStartOf="@+id/tilEmail"
+        app:layout_constraintTop_toTopOf="@+id/tilLastName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/reg_E"
-        app:endIconMode="clear_text">
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="@+id/tilAddress"
+        app:layout_constraintStart_toStartOf="@+id/tilAddress"
+        app:layout_constraintTop_toBottomOf="@+id/tilUsername">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/reg_A"
-        app:endIconMode="clear_text">
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="@+id/bRegister"
+        app:layout_constraintStart_toStartOf="@+id/bRegister"
+        app:layout_constraintTop_toBottomOf="@+id/tilEmail">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <Button
-        android:id="@+id/bRegister"
-        android:text="Register"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilFirstName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="@string/reg_FN"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="@+id/tilLastName"
+        app:layout_constraintStart_toStartOf="@+id/tilLastName"
+        app:layout_constraintTop_toTopOf="parent">
 
-</LinearLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

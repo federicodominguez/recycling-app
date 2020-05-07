@@ -20,19 +20,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/bLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Login" />
+        android:text="Login"
+        app:backgroundTint="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/tvRegisterLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Register Here"
+        android:text="Registrate Aquí"
         android:textStyle="bold" />
 
 
