@@ -65,7 +65,7 @@ public class listRecycling extends Fragment {
     private void parseJSON(){
         SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
         final String username = sharedpreferences.getString("user","");
-        final String url = getResources().getString(R.string.path_service)+"reciclados/"+username;
+        final String url = getResources().getString(R.string.path_service)+username+"/reciclados";
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {

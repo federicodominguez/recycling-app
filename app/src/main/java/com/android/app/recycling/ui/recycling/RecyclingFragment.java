@@ -25,15 +25,13 @@ public class RecyclingFragment extends Fragment {
     private SharedViewModel sharedViewModel;
     Button bAdd;
     EditText etCans,etBottles,etGlass,etTetrabriks,etPaperboard;
-    private HashMap<String,Integer> residues;
+    private HashMap<String,Integer> residues, countResidues;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
-
-        residues = new HashMap<String,Integer>();
 
         View root = inflater.inflate(R.layout.fragment_recycling, container, false);
 
@@ -52,20 +50,42 @@ public class RecyclingFragment extends Fragment {
         etGlass = view.findViewById(R.id.etGlass);
         etTetrabriks = view.findViewById(R.id.etTetrabriks);
 
+        residues = new HashMap<String,Integer>();
+        countResidues = new HashMap<String,Integer>();
+
         bAdd.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 residues.put("cans",Integer.parseInt(!etCans.getText().toString().isEmpty() ? etCans.getText().toString() : "0"));
                 residues.put("glass",Integer.parseInt(!etGlass.getText().toString().isEmpty() ? etGlass.getText().toString() : "0"));
                 residues.put("paperboard",Integer.parseInt(!etPaperboard.getText().toString().isEmpty() ? etPaperboard.getText().toString() : "0"));
                 residues.put("tetrabriks",Integer.parseInt(!etTetrabriks.getText().toString().isEmpty() ? etTetrabriks.getText().toString() : "0"));
                 residues.put("bottles",Integer.parseInt(!etBottles.getText().toString().isEmpty() ? etBottles.getText().toString() : "0"));
-                sharedViewModel.setResidues(residues);
+
+                if(countResidues != null) {
+                    residues.forEach((k, v) -> countResidues.merge(k, v, Integer::sum));
+                } else {
+                    countResidues = residues;
+                }
+
+                residues.clear();
 
                 Toast.makeText(requireContext(), "Reciclaje agregado", Toast.LENGTH_SHORT).show();
 
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        countResidues = sharedViewModel.getResidues();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sharedViewModel.setResidues(countResidues);
     }
 }

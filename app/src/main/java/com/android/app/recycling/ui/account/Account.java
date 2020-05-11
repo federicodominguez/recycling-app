@@ -143,7 +143,7 @@ public class Account extends Fragment {
             RequestQueue queue = Volley.newRequestQueue(getContext());
             SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
             final String username = sharedpreferences.getString("user","");
-            final String url = getResources().getString(R.string.path_service)+"personas/"+username;
+            final String url = getResources().getString(R.string.path_service)+"usuarios/"+username;
 
             // Request a string response from the provided URL.
             final StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

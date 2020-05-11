@@ -111,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         // CREO LA PETICION PARA ENVIAR AL SERVIDOR
-        String url = getResources().getString(R.string.path_service) +"personas";
+        String url = getResources().getString(R.string.path_service) +"usuarios";
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, j,
                 new Response.Listener<JSONObject>() {
 

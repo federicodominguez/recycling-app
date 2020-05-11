@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.android.app.recycling.R;
@@ -29,31 +28,38 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HomeFragment extends Fragment {
 
     private SharedViewModel sharedViewModel;
-    PieChart pieChart;
-    PieDataSet dataSet;
-    PieData pieData;
-    ArrayList<PieEntry> residues = new ArrayList<PieEntry>();
-    ArrayList<PieEntry> residuesTotals = new ArrayList<PieEntry>();
+    private PieChart pieChart;
+    private PieDataSet dataSet;
+    private PieData pieData;
+    private ArrayList<PieEntry> residues = new ArrayList<PieEntry>();
+    private ArrayList<PieEntry> residuesTotals = new ArrayList<PieEntry>();
+    private HashMap<String,Integer> historical = new HashMap<String,Integer>();
+    private HashMap<String,Integer> actual = new HashMap<String,Integer>();
+    private RequestQueue ReqQueue;
+    private Description description = new Description();
     BottomNavigationView bottomNavigationView;
     Button bSend;
-    private RequestQueue ReqQueue;
     SharedPreferences sharedpreferences;
-    private HashMap<String,Integer> totals = new HashMap<String,Integer>();
+    Snackbar snackbar;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -62,56 +68,33 @@ public class HomeFragment extends Fragment {
         sharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+        ReqQueue = Volley.newRequestQueue(this.getActivity());
+
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         dataSet =  new PieDataSet(residues,"");
         pieData = new PieData(dataSet);
-        pieChart = root.findViewById(R.id.pieChart);
+
+        pieChart = view.findViewById(R.id.pieChart);
+        bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        bSend = view.findViewById(R.id.bSend);
 
         pieChart.setVisibility(View.INVISIBLE);
 
-        bottomNavigationView = root.findViewById(R.id.bottom_navigation);
+        this.actual = sharedViewModel.getResidues();
 
-        ReqQueue = Volley.newRequestQueue(this.getActivity());
-
-        sharedViewModel.getResidues().observe(getViewLifecycleOwner(), new Observer<HashMap<String, Integer>>() {
-            @Override
-            public void onChanged(@Nullable HashMap<String, Integer> stringIntegerHashMap) {
-
-                Boolean set =  false;
-                pieChart.setVisibility(View.VISIBLE);
-
-                if(!residues.isEmpty()) {
-                    for (HashMap.Entry<String, Integer> hm : stringIntegerHashMap.entrySet()) {
-                        for (PieEntry p : residues) {
-                            if (p != null && translate(hm.getKey()) == p.getLabel()) {
-                                residues.remove(p);
-                                p.setY(p.getValue() + hm.getValue());
-                                residues.add(p);
-                                set = true;
-                            }
-                        }
-                        if (!set && hm.getValue() != 0){
-                            residues.add(new PieEntry(hm.getValue().floatValue(),translate(hm.getKey())));
-                        }
-                    }
-                }
-                else {
-                    for (HashMap.Entry<String, Integer> hm : stringIntegerHashMap.entrySet()){
-                        if(hm.getValue() != 0 ) {
-                            residues.add(new PieEntry(hm.getValue().floatValue(),translate(hm.getKey())));
-                        }
-                    }
-                }
-
-                dataSet.setValues(residues);
-
-                pieData.notifyDataChanged();
-                pieChart.notifyDataSetChanged();
-                pieChart.invalidate();
-
-                pieChart.setVisibility(View.VISIBLE);
-
-            }
-        });
+        if(!this.actual.isEmpty()){
+            pieChartActual();
+        } else {
+            Toast t = Toast.makeText(requireContext(), "No existen reciclajes actualmente", Toast.LENGTH_SHORT);
+            t.setGravity(Gravity.CENTER, 0, 0);
+            t.show();
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -130,45 +113,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        return root;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Log.d("On_View_Created_1","==============");
-
-
-        /*if(residues.isEmpty()){
-            pieChart.setVisibility(View.INVISIBLE);
-            Toast.makeText(requireContext(),R.string.empty_recycled,Toast.LENGTH_SHORT).show();
-        } else {
-            if(pieChart.getVisibility() == View.INVISIBLE){
-                Log.d("On_View_Created_2","==============");
-
-                pieChart.setVisibility(View.VISIBLE);
-            }
-
-            Log.d("On_View_Created_3","==============");
-            dataSet.setLabel("residues");
-            dataSet.setValues(residues);
-            //dataSet =  new PieDataSet(residues,"residues");
-            dataSet.setValueTextSize(12f);
-            dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-            pieData.setDataSet(dataSet);
-            //pieData = new PieData(dataSet);
-            pieChart.setData(pieData);*/
-
-        pieChartActual();
-
-        bSend = view.findViewById(R.id.bSend);
-
         bSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sharedViewModel.getResidues().getValue() == null){
-                    Toast.makeText(requireContext(), "Debe agregar un reciclaje", Toast.LENGTH_SHORT).show();
+                if(sharedViewModel.getResidues().isEmpty()){
+                    Toast t = Toast.makeText(requireContext(), "Debe agregar un reciclaje", Toast.LENGTH_SHORT);
+                    t.setGravity(Gravity.CENTER, 0, 0);
+                    t.show();
                 } else {
                     sendRecycled();
                 }
@@ -178,24 +129,50 @@ public class HomeFragment extends Fragment {
     }
 
     private void pieChartHistorical() {
-        residuesTotals.clear();
+        if(!this.historical.isEmpty()){
+            residuesTotals.clear();
 
-        for (HashMap.Entry<String, Integer> t : totals.entrySet()) {
-            if(t.getValue() > 0){
-                residuesTotals.add(new PieEntry(t.getValue().floatValue(),translate(t.getKey())));
+            for (HashMap.Entry<String, Integer> h : historical.entrySet()) {
+                if(h.getValue() > 0){
+                    residuesTotals.add(new PieEntry(h.getValue().floatValue(),translate(h.getKey())));
+                }
             }
+            description.setText("RECICLADO HISTORICO");
+            pieChart.setDescription(description);
+            setDataPieChart(residuesTotals);
+
+        } else {
+            pieChart.setVisibility(View.INVISIBLE);
+            Toast t = Toast.makeText(requireContext(), "No existe historial de reciclaje", Toast.LENGTH_SHORT);
+            t.setGravity(Gravity.CENTER, 0, 0);
+            t.show();
         }
 
-        Log.d("Pie_Chart_Historical","==============");
+    }
+    private void pieChartActual() {
 
+        if(!this.actual.isEmpty()){
+            residues.clear();
 
-        if(pieChart.getVisibility() == View.INVISIBLE){
-            pieChart.setVisibility(View.VISIBLE);
+            for (HashMap.Entry<String, Integer> a : actual.entrySet()) {
+                if(a.getValue() > 0) {
+                    residues.add(new PieEntry(a.getValue().floatValue(), translate(a.getKey())));
+                }
+            }
+            description.setText("RECICLADO ACTUAL");
+            pieChart.setDescription(description);
+            setDataPieChart(residues);
+        } else {
+            pieChart.setVisibility(View.INVISIBLE);
+            Toast t = Toast.makeText(requireContext(), "No existen reciclajes actualmente", Toast.LENGTH_SHORT);
+            t.setGravity(Gravity.CENTER, 0, 0);
+            t.show();
         }
+    }
 
-        dataSet.setLabel("residuesTotals");
-        dataSet.setValues(residuesTotals);
-        //dataSet =  new PieDataSet(residuesTotals,"residuesTotals");
+    public void setDataPieChart(ArrayList<PieEntry> data){
+        dataSet.setLabel("Reciclados");
+        dataSet.setValues(data);
         dataSet.setValueTextSize(12f);
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
@@ -206,25 +183,7 @@ public class HomeFragment extends Fragment {
         pieChart.notifyDataSetChanged();
         pieChart.invalidate();
 
-    }
-    private void pieChartActual() {
-
-       /* if(residues.isEmpty()) {
-            pieChart.setVisibility(View.INVISIBLE);
-            Toast.makeText(requireContext(), R.string.empty_recycled, Toast.LENGTH_SHORT).show();
-        } else {*/
-            //dataSet =  new PieDataSet(residues,"residues");
-            dataSet.setLabel("residues");
-            dataSet.setValues(residues);
-            dataSet.setValueTextSize(12f);
-            dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-            pieData.setDataSet(dataSet);
-            pieChart.setData(pieData);
-
-            pieData.notifyDataChanged();
-            pieChart.notifyDataSetChanged();
-            pieChart.invalidate();
+        pieChart.setVisibility(View.VISIBLE);
 
     }
 
@@ -232,7 +191,7 @@ public class HomeFragment extends Fragment {
         sharedpreferences = this.getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
         String userName = sharedpreferences.getString("user","");
 
-        final String url = getResources().getString(R.string.path_service)+"totalreciclado/"+userName;
+        final String url = getResources().getString(R.string.path_service)+userName+"/totalreciclado";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -242,11 +201,11 @@ public class HomeFragment extends Fragment {
                         try {
                             JSONObject res = new JSONObject(response);
 
-                            totals.put("bottles",Integer.parseInt(res.getString("bottles")));
-                            totals.put("cans",Integer.parseInt(res.getString("cans")));
-                            totals.put("tetrabriks",Integer.parseInt(res.getString("tetrabriks")));
-                            totals.put("glass",Integer.parseInt(res.getString("glass")));
-                            totals.put("paperboard",Integer.parseInt(res.getString("paperboard")));
+                            historical.put("bottles",Integer.parseInt(res.getString("bottles")));
+                            historical.put("cans",Integer.parseInt(res.getString("cans")));
+                            historical.put("tetrabriks",Integer.parseInt(res.getString("tetrabriks")));
+                            historical.put("glass",Integer.parseInt(res.getString("glass")));
+                            historical.put("paperboard",Integer.parseInt(res.getString("paperboard")));
 
                             pieChartHistorical();
 
@@ -257,7 +216,15 @@ public class HomeFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(requireContext(),error.getMessage().toString(),Toast.LENGTH_SHORT).show();
+                try {
+                    String responseBody = new String( error.networkResponse.data, "utf-8" );
+                    JSONObject jsonObject = new JSONObject( responseBody );
+                    Toast.makeText(requireContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                } catch ( JSONException e ) {
+                    //Handle a malformed json response
+                } catch (UnsupportedEncodingException e){
+
+                }
             }
         });
        ReqQueue.add(stringRequest);
@@ -271,11 +238,11 @@ public class HomeFragment extends Fragment {
         JSONObject j = new JSONObject();
         try {
             j.put("userName",userName);
-            j.put("cans",sharedViewModel.getResidues().getValue().get("cans").toString());
-            j.put("bottles",sharedViewModel.getResidues().getValue().get("bottles").toString());
-            j.put("tetrabriks", sharedViewModel.getResidues().getValue().get("tetrabriks").toString());
-            j.put("glass",sharedViewModel.getResidues().getValue().get("glass").toString());
-            j.put("paperboard", sharedViewModel.getResidues().getValue().get("paperboard").toString());
+            j.put("cans",sharedViewModel.getResidues().get("cans").toString());
+            j.put("bottles",sharedViewModel.getResidues().get("bottles").toString());
+            j.put("tetrabriks", sharedViewModel.getResidues().get("tetrabriks").toString());
+            j.put("glass",sharedViewModel.getResidues().get("glass").toString());
+            j.put("paperboard", sharedViewModel.getResidues().get("paperboard").toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -289,12 +256,13 @@ public class HomeFragment extends Fragment {
                     {
                         String ToastText = "El reciclado fue almacenado exitosamente";
                         Toast.makeText(requireContext(),ToastText,Toast.LENGTH_SHORT).show();
-                        residues.clear();
+                        actual.clear();
+                        pieChartActual();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(requireContext(),error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(),error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
         ReqQueue.add(req);

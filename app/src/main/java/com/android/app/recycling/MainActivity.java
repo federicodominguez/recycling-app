@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         final String username = etUsername.getText().toString().trim();
-        final String url = getResources().getString(R.string.path_service)+"personas/"+username;
+        final String url = getResources().getString(R.string.path_service)+"usuarios/"+username;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
