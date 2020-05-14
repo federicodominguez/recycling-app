@@ -275,7 +275,7 @@ public class HomeFragment extends Fragment {
                             String beforeComma=tonsString[0];
                             String afterComma=tonsString[1];
                             if(afterComma.length()>3) {
-                                afterComma= afterComma.substring(afterComma.indexOf("\\."),afterComma.indexOf("\\.")+3);
+                                afterComma= afterComma.substring(0,2);
                             }
                             String textTons= "Total: "+beforeComma+"."+afterComma+" tons.";
                             tons=Float.parseFloat(res.getString("tons"));
