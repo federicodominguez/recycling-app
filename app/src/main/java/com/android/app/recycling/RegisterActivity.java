@@ -70,31 +70,25 @@ public class RegisterActivity extends AppCompatActivity {
     }
     private void validateForm(){
         //Si se anidan-> probar que tire error en todos los campos si se quiere guardar
-        if(!validate(etFirstName,tilFirstName,R.string.err_FN)){
-            return;
+        boolean b1 = validate(etFirstName,tilFirstName,R.string.err_FN);
+        boolean b2 = validate(etLastName,tilLastName,R.string.err_LN);
+        boolean b3 = validate(etUsername,tilUsername,R.string.err_UN);
+        boolean b4 = validate(etEmail,tilEmail,R.string.err_E);
+        boolean b5 = validate(etAddress,tilAddress,R.string.err_A);
+        if (b1 && b2 && b3 && b4 && b5){
+
+            registrar();
         }
-        if(!validate(etLastName,tilLastName,R.string.err_LN)){
-            return;
-        }
-        if(!validate(etUsername,tilUsername,R.string.err_UN)){
-            return;
-        }
-        if(!validate(etAddress,tilAddress,R.string.err_A)){
-            return;
-        }
-        if(!validate(etEmail,tilEmail,R.string.err_E)){
-            return;
-        }
-        registrar();
+        return;
     }
     private boolean validate(EditText et, TextInputLayout til, int errorString){
         if ( et.getText().toString().trim().isEmpty()){
             til.setError(getString(errorString));
             return false;
-        } else {
-            til.setEnabled(false);
+        }else{
+            til.setError(null);
+            return  true;
         }
-        return  true;
     }
 
     private void registrar()

@@ -23,6 +23,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+
 public class MainActivity extends AppCompatActivity {
 
     Button bLogin;
@@ -87,13 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Si la respuesta es vacia es porque no existe el usuario
-                        if (response.isEmpty()) {
-                            String ToastText ="El usuario "+username+" no existe";
-                            Toast.makeText(MainActivity.this,ToastText,Toast.LENGTH_SHORT).show();
-                            etUsername.setText("");
-                            tilUsername.setEnabled(true);
-                        } else {
                             try {
                                 JSONObject person = new JSONObject(response);
                                 address = person.getString("address");
@@ -111,20 +106,30 @@ public class MainActivity extends AppCompatActivity {
                             i.putExtra("userName",username);
                             startActivity(i);
                             finish();
-                            }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                String errorText= "No existe el usuario";
-                Toast.makeText(MainActivity.this,errorText,Toast.LENGTH_SHORT).show();
+                parseVolleyError(error);
+                etUsername.setText("");
+                tilUsername.setEnabled(true);
             }
         });
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
-
+    private void parseVolleyError(VolleyError error) {
+        try {
+            String responseBody = new String(error.networkResponse.data, "utf-8");
+            JSONObject data = new JSONObject(responseBody);
+            String message = data.optString("message");
+            Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+        } catch (JSONException e) {
+        } catch (UnsupportedEncodingException e) {
+        }
+    }
     //Antes de salir de la activity registramos la sesion
     @Override
     protected void onPause()
