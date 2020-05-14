@@ -125,7 +125,7 @@ public class Account extends Fragment {
         try {
             JSONObject person = new JSONObject(request);
             //tvUsername.setText(person.getString("userName"));
-            String completeName = person.getString("firstName")+""+person.getString("lastName");
+            String completeName = person.getString("firstName")+" "+person.getString("lastName");
             tvCompleteName.setText(completeName);
             tvAddress.setText(person.getString("address"));
             tvEmail.setText(person.getString("mail"));
