@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.android.app.recycling.MainActivity;
 
 import com.android.app.recycling.R;
+import com.android.app.recycling.SharedViewModel;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -41,9 +43,9 @@ public class Account extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     Button blogout;
-    EditText etFirstName, etLastName, etEmail, etAddress;
-    TextInputLayout tilFirstName, tilLastName, tilEmail, tilAddress;
-    TextView tvUsername;
+    //EditText etFirstName, etLastName, etEmail, etAddress;
+    //TextInputLayout tilFirstName, tilLastName, tilEmail, tilAddress;
+    TextView tvUsername,tvCompleteName,tvEmail,tvAddress;
     private boolean userExist;
 
 
@@ -62,15 +64,9 @@ public class Account extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tilFirstName = view.findViewById(R.id.tilAccFN);
-        etFirstName = view.findViewById(R.id.etAccFN);
-        tilLastName = view.findViewById(R.id.tilAccLN);
-        etLastName = view.findViewById(R.id.etAccLN);
-        tilAddress = view.findViewById(R.id.tilAccAd);
-        etAddress = view.findViewById(R.id.etAccAd);
-        tilEmail = view.findViewById(R.id.tilAccEm);
-        etEmail = view.findViewById(R.id.etAccEm);
-        tvUsername = view.findViewById(R.id.tVUN);
+        tvCompleteName = view.findViewById(R.id.tvCompleteName);
+        tvAddress = view.findViewById(R.id.tvAddress);
+        tvEmail = view.findViewById(R.id.tvEmail);
         blogout =  (Button) view.findViewById(R.id.btnLogout);
         getUserData();
         blogout.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +76,7 @@ public class Account extends Fragment {
                 // Set a title for alert dialog
                 builder.setTitle("¡Hola!");
                 // Show a message on alert dialog
-                builder.setMessage("¿Quiere cerrar sesión?");
+                builder.setMessage("¿Quiere cerrar sesión? Si tiene reciclaje actual, lo perderá.");
                 // Set the positive button
                 builder.setPositiveButton("Si, claro",yesLogout());
                 // Set the negative button
@@ -91,7 +87,6 @@ public class Account extends Fragment {
                 dialog.show();
                 // Change the alert dialog background color to transparent
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-
             }
         });
 
@@ -112,9 +107,12 @@ public class Account extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(getContext(),"Cerrando Sesion",Toast.LENGTH_LONG).show();
-                SharedPreferences preferences = getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
+                SharedPreferences.Editor editor2 =getActivity().getSharedPreferences("ActualRecycling",Context.MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE).edit();
                 editor.putBoolean("UserInSession",false);
+                editor.putBoolean("hasRecycling",false);
+                editor2.clear();
+                editor2.commit();
                 editor.commit();
                 startActivity(new Intent(getContext(), MainActivity.class));
                 getActivity().finish();
@@ -126,11 +124,11 @@ public class Account extends Fragment {
 
         try {
             JSONObject person = new JSONObject(request);
-            tvUsername.setText(person.getString("userName"));
-            etFirstName.setText(person.getString("firstName"));
-            etLastName.setText(person.getString("lastName"));
-            etAddress.setText(person.getString("address"));
-            etEmail.setText(person.getString("mail"));
+            //tvUsername.setText(person.getString("userName"));
+            String completeName = person.getString("firstName")+""+person.getString("lastName");
+            tvCompleteName.setText(completeName);
+            tvAddress.setText(person.getString("address"));
+            tvEmail.setText(person.getString("mail"));
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();

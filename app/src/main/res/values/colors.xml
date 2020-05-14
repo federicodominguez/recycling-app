@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimary">#81c784</color>
+    <color name="colorPrimaryDark">#519657</color>
+    <color name="colorPrimaryLight">#b2fab4</color>
+    <color name="colorSecondary">#2e7d32</color>
+    <color name="colorSecondaryLight">#60ad5e</color>
+    <color name="colorSecondaryDark" >#005005</color>
+    <color name="textPrimary">#000000</color>
+    <color name="textSecondary">#ffffff</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorWhiteTransparent">#99FFFFFF</color>
     <color name="dialogButtonText">#33691E</color>
+
 </resources>

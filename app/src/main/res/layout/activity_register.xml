@@ -7,18 +7,27 @@
     android:layout_height="fill_parent"
     tools:context=".RegisterActivity">
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/linearLayout"
+    android:id="@+id/clActivityRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/bRegister"
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleBtnRegister"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
-        android:text="Register"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tilAddress" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="@+id/tvRegisterReturn"
+        app:layout_constraintStart_toStartOf="@+id/tvRegisterReturn"
+        app:layout_constraintTop_toBottomOf="@+id/tilAddress">
+
+        <Button
+            android:id="@+id/bRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registrarse"
+            app:iconTint="?attr/colorButtonNormal" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <TextView
         android:id="@+id/tvRegisterReturn"
@@ -28,15 +37,16 @@
         android:textAlignment="center"
         android:text="Volver"
         android:textStyle="bold"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="90dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bRegister"/>
+        app:layout_constraintTop_toTopOf="@+id/toggleBtnRegister"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/reg_LN"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="@+id/tilUsername"
         app:layout_constraintStart_toStartOf="@+id/tilUsername"
@@ -54,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="61dp"
         android:hint="@string/reg_UN"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="@+id/tilEmail"
         app:layout_constraintStart_toStartOf="@+id/tilEmail"
@@ -70,6 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/reg_E"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="@+id/tilAddress"
         app:layout_constraintStart_toStartOf="@+id/tilAddress"
@@ -87,9 +99,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/reg_A"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconMode="clear_text"
-        app:layout_constraintEnd_toEndOf="@+id/bRegister"
-        app:layout_constraintStart_toStartOf="@+id/bRegister"
+        app:layout_constraintEnd_toEndOf="@+id/toggleBtnRegister"
+        app:layout_constraintStart_toStartOf="@+id/toggleBtnRegister"
         app:layout_constraintTop_toBottomOf="@+id/tilEmail">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -107,6 +120,7 @@
         android:layout_marginTop="20dp"
         android:hint="@string/reg_FN"
         app:endIconMode="clear_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="@+id/tilLastName"
         app:layout_constraintStart_toStartOf="@+id/tilLastName"
         app:layout_constraintTop_toTopOf="parent">

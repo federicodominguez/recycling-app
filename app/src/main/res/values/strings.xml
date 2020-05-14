@@ -34,8 +34,8 @@
     <string name="nav_actual">Actual</string>
     <string name="nav_historical">Historial</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_recycling">Recycling</string>
+    <string name="menu_home">Principal</string>
+    <string name="menu_recycling">Reciclar</string>
     <string name="menu_account">Mi Cuenta</string>
     <string name="menu_listRecycling">Mis Reciclados</string>
 

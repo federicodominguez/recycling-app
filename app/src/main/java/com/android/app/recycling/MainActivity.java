@@ -20,6 +20,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     Button bLogin;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvRegisterLink;
     TextInputLayout tilUsername;
     SharedPreferences pref_session;
+    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         etUsername = (EditText) findViewById(R.id.etUsername);
         tilUsername = (TextInputLayout) findViewById(R.id.tilUsername);
         tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
+        address="";
         pref_session = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
         //Comprobando si ya hay una sesion abierta por un usuario
         if (pref_session.getBoolean("UserInSession",false)) {
@@ -89,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
                             etUsername.setText("");
                             tilUsername.setEnabled(true);
                         } else {
+                            try {
+                                JSONObject person = new JSONObject(response);
+                                address = person.getString("address");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(MainActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
+                            }
                             String ToastText =username+" ha iniciado sesion";
                             Toast.makeText(MainActivity.this,ToastText,Toast.LENGTH_SHORT).show();
                             SharedPreferences.Editor editor = pref_session.edit();
@@ -120,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         String user = etUsername.getText().toString();
         SharedPreferences.Editor editor = pref_session.edit();
         editor.putString("user",user);
+        editor.putString("address",address);
         editor.commit();
 
     }

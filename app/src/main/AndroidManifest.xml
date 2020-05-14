@@ -8,19 +8,21 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="ReciclAr"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialComponents.Light"
+        android:theme="@style/NoActionBar"
         tools:targetApi="n">
         <activity
             android:name=".NavDrawerActivity"
             android:label="@string/title_activity_nav_drawer"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:theme="@style/NoActionBar"></activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity">
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".RegisterActivity"
+            android:label="Registrarse" />
+        <activity android:name=".MainActivity"
+            android:label="ReciclAr">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

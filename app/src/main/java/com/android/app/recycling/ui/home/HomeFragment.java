@@ -1,7 +1,11 @@
 package com.android.app.recycling.ui.home;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -10,11 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -55,9 +61,12 @@ public class HomeFragment extends Fragment {
     private HashMap<String,Integer> actual = new HashMap<String,Integer>();
     private RequestQueue ReqQueue;
     private Description description = new Description();
+    private boolean hashEmpty;
+    TextView tvTons;
     BottomNavigationView bottomNavigationView;
-    Button bSend;
+    Button bSend,bDelete;
     SharedPreferences sharedpreferences;
+    Float tons;
     Snackbar snackbar;
 
 
@@ -83,13 +92,19 @@ public class HomeFragment extends Fragment {
         pieChart = view.findViewById(R.id.pieChart);
         bottomNavigationView = view.findViewById(R.id.bottom_navigation);
         bSend = view.findViewById(R.id.bSend);
-
+        bDelete = view.findViewById(R.id.bDelete);
+        tvTons = (TextView) view.findViewById(R.id.tvTons);
+        tvTons.setVisibility(View.INVISIBLE);
         pieChart.setVisibility(View.INVISIBLE);
-
+        bSend.setVisibility(View.INVISIBLE);
+        bDelete.setVisibility(View.INVISIBLE);
         this.actual = sharedViewModel.getResidues();
+        tons = new Float(0.0);
 
         if(!this.actual.isEmpty()){
             pieChartActual();
+            bSend.setVisibility(View.VISIBLE);
+            bDelete.setVisibility(View.VISIBLE);
         } else {
             Toast t = Toast.makeText(requireContext(), "No existen reciclajes actualmente", Toast.LENGTH_SHORT);
             t.setGravity(Gravity.CENTER, 0, 0);
@@ -101,12 +116,20 @@ public class HomeFragment extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_actual:
-                        bSend.setVisibility(View.VISIBLE);
+                        if(!actual.isEmpty()){
+                            bSend.setVisibility(View.VISIBLE);
+                            bDelete.setVisibility(View.VISIBLE);
+                        }
+                        tvTons.setVisibility(View.INVISIBLE);
+
                         pieChartActual();
                         return true;
                     case R.id.nav_historical:
-                        bSend.setVisibility(View.INVISIBLE);
                         getTotalAndDraw();
+                        if (historical.isEmpty()){
+                        }
+                        bSend.setVisibility(View.INVISIBLE);
+                        bDelete.setVisibility(View.INVISIBLE);
                         return true;
                 }
                 return false;
@@ -126,10 +149,51 @@ public class HomeFragment extends Fragment {
             }
         });
 
-    }
+        bDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                // Set a title for alert dialog
+                builder.setTitle("¡Hola!");
+                // Show a message on alert dialog
+                builder.setMessage("¿Quiere borrar su reciclado actual?");
+                // Set the positive button
+                builder.setPositiveButton("Si, claro",yesDelete());
+                // Set the negative button
+                builder.setNegativeButton("No",noDelete());
+                // Create the alert dialog
+                AlertDialog dialog = builder.create();
+                // Finally, display the alert dialog
+                dialog.show();
+                // Change the alert dialog background color to transparent
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+            }
+        });
 
+    }
+    private Dialog.OnClickListener yesDelete(){
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                actual.clear();
+                Toast.makeText(requireContext(), "Reciclaje Eliminado", Toast.LENGTH_SHORT).show();
+                pieChartActual();
+                bSend.setVisibility(View.INVISIBLE);
+                bDelete.setVisibility(View.INVISIBLE);
+            }
+        };
+    }
+    private Dialog.OnClickListener noDelete(){
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getContext(),"Ok, ¡Sigamos reciclando!",Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
     private void pieChartHistorical() {
-        if(!this.historical.isEmpty()){
+        System.out.println(historical.toString());
+        if(tons > 0){
             residuesTotals.clear();
 
             for (HashMap.Entry<String, Integer> h : historical.entrySet()) {
@@ -137,12 +201,13 @@ public class HomeFragment extends Fragment {
                     residuesTotals.add(new PieEntry(h.getValue().floatValue(),translate(h.getKey())));
                 }
             }
-            description.setText("RECICLADO HISTORICO");
+            description.setText("HISTORICO");
             pieChart.setDescription(description);
             setDataPieChart(residuesTotals);
 
         } else {
             pieChart.setVisibility(View.INVISIBLE);
+            tvTons.setVisibility(View.INVISIBLE);
             Toast t = Toast.makeText(requireContext(), "No existe historial de reciclaje", Toast.LENGTH_SHORT);
             t.setGravity(Gravity.CENTER, 0, 0);
             t.show();
@@ -150,7 +215,6 @@ public class HomeFragment extends Fragment {
 
     }
     private void pieChartActual() {
-
         if(!this.actual.isEmpty()){
             residues.clear();
 
@@ -159,7 +223,7 @@ public class HomeFragment extends Fragment {
                     residues.add(new PieEntry(a.getValue().floatValue(), translate(a.getKey())));
                 }
             }
-            description.setText("RECICLADO ACTUAL");
+            description.setText("ACTUAL");
             pieChart.setDescription(description);
             setDataPieChart(residues);
         } else {
@@ -206,6 +270,11 @@ public class HomeFragment extends Fragment {
                             historical.put("tetrabriks",Integer.parseInt(res.getString("tetrabriks")));
                             historical.put("glass",Integer.parseInt(res.getString("glass")));
                             historical.put("paperboard",Integer.parseInt(res.getString("paperboard")));
+                            String tonsString = res.getString("tons").substring(0,res.getString("tons").indexOf(".")+3);
+                            String textTons= "Total: "+tonsString+" tons.";
+                            tons=Float.parseFloat(res.getString("tons"));
+                            tvTons.setText(textTons);
+                            tvTons.setVisibility(View.VISIBLE);
 
                             pieChartHistorical();
 
@@ -258,6 +327,8 @@ public class HomeFragment extends Fragment {
                         Toast.makeText(requireContext(),ToastText,Toast.LENGTH_SHORT).show();
                         actual.clear();
                         pieChartActual();
+                        bSend.setVisibility(View.INVISIBLE);
+                        bDelete.setVisibility(View.INVISIBLE);
                     }
                 }, new Response.ErrorListener() {
             @Override

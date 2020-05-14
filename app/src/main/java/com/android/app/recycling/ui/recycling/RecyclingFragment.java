@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.android.app.recycling.R;
 import com.android.app.recycling.SharedViewModel;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.HashMap;
 
@@ -25,6 +26,7 @@ public class RecyclingFragment extends Fragment {
     private SharedViewModel sharedViewModel;
     Button bAdd;
     EditText etCans,etBottles,etGlass,etTetrabriks,etPaperboard;
+    TextInputLayout tilCans,tilPaperboard,tilGlass,tilBottles,tilTetrabriks;
     private HashMap<String,Integer> residues, countResidues;
 
 
@@ -49,6 +51,11 @@ public class RecyclingFragment extends Fragment {
         etPaperboard = view.findViewById(R.id.etPaperboard);
         etGlass = view.findViewById(R.id.etGlass);
         etTetrabriks = view.findViewById(R.id.etTetrabriks);
+        tilCans = view.findViewById(R.id.tilCans);
+        tilBottles= view.findViewById(R.id.tilBottles);
+        tilGlass = view.findViewById(R.id.tilGlass);
+        tilTetrabriks=view.findViewById(R.id.tilTetrabriks);
+        tilPaperboard = view.findViewById(R.id.tilPaperboard);
 
         residues = new HashMap<String,Integer>();
         countResidues = new HashMap<String,Integer>();
@@ -57,26 +64,46 @@ public class RecyclingFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                residues.put("cans",Integer.parseInt(!etCans.getText().toString().isEmpty() ? etCans.getText().toString() : "0"));
-                residues.put("glass",Integer.parseInt(!etGlass.getText().toString().isEmpty() ? etGlass.getText().toString() : "0"));
-                residues.put("paperboard",Integer.parseInt(!etPaperboard.getText().toString().isEmpty() ? etPaperboard.getText().toString() : "0"));
-                residues.put("tetrabriks",Integer.parseInt(!etTetrabriks.getText().toString().isEmpty() ? etTetrabriks.getText().toString() : "0"));
-                residues.put("bottles",Integer.parseInt(!etBottles.getText().toString().isEmpty() ? etBottles.getText().toString() : "0"));
-
-                if(countResidues != null) {
-                    residues.forEach((k, v) -> countResidues.merge(k, v, Integer::sum));
-                } else {
-                    countResidues = residues;
+                if(!validate()){
+                    Toast.makeText(getContext(),"Agregue al menos un reciclado",Toast.LENGTH_LONG).show();
                 }
-
-                residues.clear();
-
-                Toast.makeText(requireContext(), "Reciclaje agregado", Toast.LENGTH_SHORT).show();
-
+                else {
+                    sendRecycling();
+                }
             }
         });
     }
 
+    private boolean validate(){
+        int sum = 0;
+        sum +=Integer.parseInt(!etCans.getText().toString().isEmpty() ? etCans.getText().toString() : "0");
+        sum +=Integer.parseInt(!etGlass.getText().toString().isEmpty() ? etGlass.getText().toString() : "0");
+        sum +=Integer.parseInt(!etPaperboard.getText().toString().isEmpty() ? etPaperboard.getText().toString() : "0");
+        sum +=Integer.parseInt(!etTetrabriks.getText().toString().isEmpty() ? etTetrabriks.getText().toString() : "0");
+        sum +=Integer.parseInt(!etBottles.getText().toString().isEmpty() ? etBottles.getText().toString() : "0");
+        return sum > 0;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void sendRecycling(){
+        residues.put("cans",Integer.parseInt(!etCans.getText().toString().isEmpty() ? etCans.getText().toString() : "0"));
+        residues.put("glass",Integer.parseInt(!etGlass.getText().toString().isEmpty() ? etGlass.getText().toString() : "0"));
+        residues.put("paperboard",Integer.parseInt(!etPaperboard.getText().toString().isEmpty() ? etPaperboard.getText().toString() : "0"));
+        residues.put("tetrabriks",Integer.parseInt(!etTetrabriks.getText().toString().isEmpty() ? etTetrabriks.getText().toString() : "0"));
+        residues.put("bottles",Integer.parseInt(!etBottles.getText().toString().isEmpty() ? etBottles.getText().toString() : "0"));
+        if(countResidues != null) {
+            residues.forEach((k, v) -> countResidues.merge(k, v, Integer::sum));
+        } else {
+            countResidues = residues;
+        }
+        residues.clear();
+        Toast.makeText(requireContext(), "Reciclaje agregado", Toast.LENGTH_SHORT).show();
+        etCans.setText("");
+        etBottles.setText("");
+        etGlass.setText("");
+        etPaperboard.setText("");
+        etTetrabriks.setText("");
+    }
     @Override
     public void onStart() {
         super.onStart();
