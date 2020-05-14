@@ -1,10 +1,12 @@
 package com.android.app.recycling.ui.recycling;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -64,6 +66,7 @@ public class RecyclingFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
+                closeKeyboard();
                 if(!validate()){
                     Toast.makeText(getContext(),"Agregue al menos un reciclado",Toast.LENGTH_LONG).show();
                 }
@@ -103,6 +106,14 @@ public class RecyclingFragment extends Fragment {
         etGlass.setText("");
         etPaperboard.setText("");
         etTetrabriks.setText("");
+    }
+    private void closeKeyboard(){
+        View view = getActivity().getCurrentFocus();
+        if (view !=null){
+            InputMethodManager inm =(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
+
     }
     @Override
     public void onStart() {

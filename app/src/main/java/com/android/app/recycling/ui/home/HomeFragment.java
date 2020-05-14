@@ -47,6 +47,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class HomeFragment extends Fragment {
@@ -270,12 +271,16 @@ public class HomeFragment extends Fragment {
                             historical.put("tetrabriks",Integer.parseInt(res.getString("tetrabriks")));
                             historical.put("glass",Integer.parseInt(res.getString("glass")));
                             historical.put("paperboard",Integer.parseInt(res.getString("paperboard")));
-                            String tonsString = res.getString("tons").substring(0,res.getString("tons").indexOf(".")+3);
-                            String textTons= "Total: "+tonsString+" tons.";
+                            String[] tonsString= res.getString("tons").split("\\.");
+                            String beforeComma=tonsString[0];
+                            String afterComma=tonsString[1];
+                            if(afterComma.length()>3) {
+                                afterComma= afterComma.substring(afterComma.indexOf("\\."),afterComma.indexOf("\\.")+3);
+                            }
+                            String textTons= "Total: "+beforeComma+"."+afterComma+" tons.";
                             tons=Float.parseFloat(res.getString("tons"));
                             tvTons.setText(textTons);
                             tvTons.setVisibility(View.VISIBLE);
-
                             pieChartHistorical();
 
                         } catch (JSONException ex) {
